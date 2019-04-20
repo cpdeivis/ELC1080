@@ -3,10 +3,10 @@ CXXFLAGS = -g -Wall
 
 all: main
 
-main.o: main.c
-#header.o: header.c header.h
+main.o: main.c Frase.h
+Frase.o: Frase.c Frase.h
 
-main: main.o
+main: main.o Frase.o
 	$(CXX) $(CXXFLAGS) -o $@  $^ 
 
 clean:

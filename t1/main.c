@@ -7,11 +7,19 @@
 #include <sys/wait.h>
 #include <sys/dir.h>
 
-void dicaDia(const char * diretorio){
-    // TODO
+#include "Frase.h"
+
+void dicaDia(const char * diretorio, Frase * head, int * total){
+    char arquivo[1]; //trick para eu não precisar alocar memória
+    strcat(arquivo, diretorio);
+    strcat(arquivo, "dica_do_dia.txt");
+    FILE * arq = fopen(arquivo, "w");
+    char * linha = sortFrase(head, total);
+    fprintf(arq, "%s", linha);
+    fclose(arq);
 }
 
-void abrirRecursivamente(const char *diretorio, int primeira){
+void abrirRecursivamente(const char *diretorio, int primeira, Frase * head, int * total){
     DIR *dirp;
     dirp = opendir(diretorio);
 
@@ -20,7 +28,7 @@ void abrirRecursivamente(const char *diretorio, int primeira){
         char *new_dir;
         new_dir = malloc(sizeof(char) * (strlen(diretorio) + 256));
 
-        dicaDia(diretorio);
+        dicaDia(diretorio, head, total);
 
         if(!primeira)
             printf("\t%d -> %d;\n", getppid(), getpid());
@@ -36,7 +44,7 @@ void abrirRecursivamente(const char *diretorio, int primeira){
 
                     int pid = fork();
                     if (pid == 0){
-                        abrirRecursivamente(new_dir, 0);
+                        abrirRecursivamente(new_dir, 0, head, total);
                         return; 
                     }
                 }
@@ -52,7 +60,12 @@ void abrirRecursivamente(const char *diretorio, int primeira){
 }
 
 int main(int argc, char const *argv[]){
-    puts("digraph G {");
-    abrirRecursivamente("./home/estagiario/", 1);
+    int total = 0;
+    Frase *head = carregaFrases("./frases.txt", &total);
+    if(total > 0){
+        puts("digraph G {");
+        abrirRecursivamente("./home/estagiario/", 1, head, &total);
+    }
+
     return 0;
 }
