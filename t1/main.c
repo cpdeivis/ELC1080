@@ -10,8 +10,9 @@
 #include "Frase.h"
 
 void dicaDia(const char * diretorio, Frase * head, int * total){
-    char arquivo[1]; //trick para eu não precisar alocar memória
-    strcat(arquivo, diretorio);
+    char * arquivo;
+    arquivo = malloc(sizeof(char) * (strlen(diretorio) + 16));
+    strcpy(arquivo, diretorio);
     strcat(arquivo, "dica_do_dia.txt");
     FILE * arq = fopen(arquivo, "w");
     char * linha = sortFrase(head, total);
