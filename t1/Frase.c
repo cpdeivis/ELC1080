@@ -4,6 +4,10 @@
 
 #include "Frase.h"
 
+/* getLine
+arq -> estrutura do tipo FILE
+bEOF -> flag para o fim do arquivo
+nrChars -> contador de chars lidos naquela linha */
 char * getLine(FILE *arq, int *bEOF, size_t *nrChars){
     char * line; //buffer da string
     char ch; //para leitura caracter a caracter
@@ -48,34 +52,34 @@ char * getLine(FILE *arq, int *bEOF, size_t *nrChars){
 }
 
 Frase * carregaFrases(const char * arquivo, int * total){
-    FILE *dicas;
-    dicas = fopen(arquivo, "r");
-    if(dicas != NULL){
-        char * line;
-        int bEOF = 0;
-        size_t nrChars = 0;
-        Frase *atual, *head;
+    FILE *dicas; // arquivo das frases
+    dicas = fopen(arquivo, "r"); 
+    if(dicas != NULL){// verifica se abriu o arquivo corretamente
+        char * line;//buffer pra linha
+        int bEOF = 0;//flag para o EOF
+        size_t nrChars = 0;//contador de chars lidos
+        Frase *atual, *head;//lista das frases
         atual = head = NULL; 
-        *total = 0;
-        while(line = getLine(dicas, &bEOF, &nrChars)){
+        *total = 0;//contador de elementos
+        while(line = getLine(dicas, &bEOF, &nrChars)){//alimenta o buffer
             if((nrChars == 0) && bEOF) break; // arquivo vazio
             if(nrChars == 1) continue;// linha vazia
-            Frase *f = malloc(sizeof(Frase));
-            f->texto = line;
+            Frase *f = malloc(sizeof(Frase));//cria uma nova entrada na lista
+            f->texto = line;//passa o conteudo do buffer
             f->prox =  NULL;
 
-            *total += 1;
+            *total += 1;//contador de elementos
 
             if(head == NULL){
-                atual = head = f;
+                atual = head = f;//primeiro elemento
             } else{
-                atual = atual->prox = f;
+                atual = atual->prox = f;//subsequentes
             }
 
             if(bEOF) break;// fim do arquivo
         }
         if(dicas)
-            fclose(dicas);
+            fclose(dicas);//se abriu o arquivo, fecha-o
         
         return head;
     }
