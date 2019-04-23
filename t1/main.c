@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -77,6 +78,7 @@ int main(int argc, char const *argv[]){
     //chama a função que carrega as frases para uma lista
     Frase *head = carregaFrases("./frases.txt", &total);
     if(total > 0){
+        srand(time(NULL));
         puts("digraph G {");
         abrirRecursivamente("./home/estagiario/", 1, head, &total);
     }

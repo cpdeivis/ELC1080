@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "Frase.h"
 
@@ -88,7 +87,6 @@ Frase * carregaFrases(const char * arquivo, int * total){
 
 char * sortFrase(Frase * head, int * total){
     if(head != NULL && *total > 0){
-        srand(time(NULL));
         Frase * atual = head;
         for (int i = 0, tt = (rand() % *total); i < tt; i++){
             atual = atual->prox;
