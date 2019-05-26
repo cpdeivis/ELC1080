@@ -1,3 +1,4 @@
-.vscode/*
+/t1/.vscode/*
+/t2/.vscode/*
 *.o
 /t1/home/*
