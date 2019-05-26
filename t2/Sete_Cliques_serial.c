@@ -33,16 +33,20 @@ int seteCliques(const char *page_url, int *exe, const char *str){
 }
 
 int main(int argc, char const *argv[]){
+	//arg 1: Página Inicial
+    //arg 2: Palavra a ser Encontrada
 	if(argc == 3){
 		srand(time(NULL));
 		int exe = 0;
 		if(seteCliques(argv[1], &exe, argv[2])){
-			puts("ACHOU!!!");
+			puts("Achou!!");
 		} else{
-			puts("NO FOI ENCONTRADO KKKK !!!");
+			puts("Não foi Encontrado!!");
 		}
 
 		curl_global_cleanup();
-	}
+	} else{
+        puts("Argumentos Insuficientes!!");
+    }
 	return 0;
 }
