@@ -41,7 +41,7 @@ void * Bolsista(void * esquece){
                 printf("Bolsista: Verificando os documentos da ficha %d.\n", queue[i]);
                 printf("Bolsista: Tudo certo com os documentos. Entregando a carteirinha da ficha %d.\n", queue[i]);
                 sem_post(&mutex);
-                sleep(1);
+                sleep(1);//somente para perfumaria
             }
 
             printf("Bolsista: Terminei. Fechei a porta. Vou tomar um cafezinho e jah volto...\n");
@@ -52,7 +52,7 @@ void * Bolsista(void * esquece){
         }
         if(total == num)
             break;
-        sleep(1);
+        sleep(1);//somente para perfumaria
     }
 }
 
@@ -64,6 +64,7 @@ int main(int argc, char const *argv[]){
         num = atoi(argv[1]);
     } else{ 
         printf("Numero Inválido!\n");
+        return 1;
     }
 
     // inicializa o vetor de semaforos
