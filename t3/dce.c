@@ -13,10 +13,11 @@ typedef struct{
     int ficha;
 } ficha;
 
-int total;
-int ind;
-int num;
-int queue[N];
+int total;//qts estudantes já foram processados
+int ind;//indice atual da queue
+int num;//total de estudantes, passado por parametro
+int queue[N];//ordem de quem usou o MUTEX
+
 sem_t fichas[N];
 sem_t mutex;
 
@@ -29,7 +30,7 @@ void * Estudante(void * args){
     total++;
     queue[ind++] = atual->estudante;
     sem_wait(&mutex);
-    printf("Ficha %d: Recebi minha carteirinha!\n", atual->estudante);
+    printf("Ficha %d: Recebi minha carteirinha!\n\n", atual->estudante);
 }
 
 void * Bolsista(void * esquece){
@@ -77,7 +78,7 @@ int main(int argc, char const *argv[]){
     pthread_t alunos[num];
     for (int i = 0; i < num; i++){
         ficha *args = malloc(sizeof *args);
-        args->estudante = i+1;
+        args->estudante = i;
         args->ficha = i%N;
 
         pthread_create(&alunos[i], NULL, (void*) Estudante, args);
